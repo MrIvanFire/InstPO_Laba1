@@ -17,13 +17,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);        setTitle("Добавление Коммитов");
+        setContentView(R.layout.activity_main);
+        setTitle("Добавление Коммитов");
         goal = findViewById(R.id.text_view_daily_goal);
         progress = findViewById(R.id.text_view_progress);
         status = findViewById(R.id.text_view_status);
         seekBar = findViewById(R.id.seek_bar);
 
-        updateStatus(progress, status, 0);
+        int currProgress = 0;
+        if (savedInstanceState != null) {
+            currProgress = savedInstanceState.getInt("progress");
+        }
+        seekBar.setProgress(currProgress);
+        updateStatus(progress, status, currProgress);
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int value, boolean user) {
@@ -65,5 +71,10 @@ public class MainActivity extends AppCompatActivity {
         {
             statusText.setText("Ошибка");
         }
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("progress", seekBar.getProgress());
     }
 }
