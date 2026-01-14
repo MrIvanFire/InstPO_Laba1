@@ -1,6 +1,8 @@
 package com.example.github2;
 
 import android.os.Bundle;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,16 +11,36 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final int DAILY_GOAL = 10;
+    TextView goal, progress, status;
+    SeekBar seekBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+        setContentView(R.layout.activity_main);        setTitle("Добавление Коммитов");
+        goal = findViewById(R.id.text_view_daily_goal);
+        progress = findViewById(R.id.text_view_progress);
+        status = findViewById(R.id.text_view_status);
+        seekBar = findViewById(R.id.seek_bar);
+
+        updateStatus(progress, status, 0);
+        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int value, boolean user) {
+                updateStatus(progress, status, value);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+
+
+    }
+    private void updateStatus(TextView progressText, TextView statusText, int value) {
+        progressText.setText(String.valueOf(value));
+
     }
 }
