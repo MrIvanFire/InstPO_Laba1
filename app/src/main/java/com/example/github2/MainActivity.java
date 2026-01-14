@@ -41,6 +41,29 @@ public class MainActivity extends AppCompatActivity {
     }
     private void updateStatus(TextView progressText, TextView statusText, int value) {
         progressText.setText(String.valueOf(value));
-
+        if (value == 0)
+        {
+            statusText.setText("Еще не начал");
+        }
+        else if (value >= 1 && value <= 3)
+        {
+            statusText.setText("Начало");
+        }
+        else if (value >= 4 && value <= 7)
+        {
+            statusText.setText("Хороший прогресс");
+        }
+        else if (value >= 8 && value <= 9)
+        {
+            statusText.setText("Почти достиг");
+        }
+        else if (value >= DAILY_GOAL)
+        {
+            statusText.setText("Цель выполнена");
+        }
+        else
+        {
+            statusText.setText("Ошибка");
+        }
     }
 }
